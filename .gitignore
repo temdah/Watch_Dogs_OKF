@@ -1,0 +1,22 @@
+# Documentation repository: keep local state and game material private.
+.agents/
+.codex/
+.private/
+**/AGENTS.md
+*_handoff.md
+.env
+.env.*
+__pycache__/
+*.pyc
+*.log
+*.bin
+*.dmp
+*.mdmp
+*.exe
+*.dll
+*.ipe
+*.asi
+*.sav
+*.zip
+Thumbs.db
+Desktop.ini
