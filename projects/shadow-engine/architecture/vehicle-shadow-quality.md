@@ -11,6 +11,15 @@ tags:
 - resolution
 status: draft
 sources:
+- id: retired-policy-migration
+  resource: ../../../evidence/catalog.json#E-shadow-baseline-20261004
+  title: Retired experiment removal and settings migration fixtures
+- id: background-runtime
+  resource: ../../../evidence/catalog.json#E-shadow89-runtime-20261004
+  title: Preserved Global background1024 population capture and unchanged onset report
+- id: background-query-review
+  resource: ../../../evidence/catalog.json#E-19eafa0c5c81
+  title: Occlusion-query mapping and bounded background-quality experiment
 - id: vehicle-tier-result
   resource: ../../../evidence/catalog.json#E-3fbd10671774
   title: Distance-tier implementation and validation
@@ -97,6 +106,91 @@ and publication comparisons retain lower requests, unknown/world passthrough and
 atomic publication behavior. These are offline results; the subsequent .83 cleanup report also confirms
 correct operation in its tested Global scope. No measured FPS gain is inferred.
 
+# Optional background request quality (.89 experiment)
+
+The fixed selected vehicle cap remains the foreground policy. An independent
+setting defaults Off and can cap distant vehicle-owned type3 spotlights at
+512 or1024. This is a request-size experiment, not an admission/pop-in fix and
+not proof of police/headlight semantics for every type3 light. Type1, world,
+unknown and ambiguous identities never receive this additional reduction.
+
+The existing synchronous quality boundary reads one atomic policy word.
+Background bits20..21 encode Off/512/1024; value3 is invalid. Background remains
+independent when the main vehicle setting is Original. Each dimension stays
+`min(native request, enabled selected cap, applicable background cap)`. It never
+raises a lower native request. Off retains the fixed-cap path without a driver
+identity/position lookup; a 3,141-case frozen comparison preserves its output.
+
+While enabled, copy the proven driver identity and local-player position before
+acquiring the existing nonwaiting selection token. Unknown or on-foot driver
+state disables extra reduction for that pass; this first experiment does not
+claim on-foot activation. Preserve selected quality when either owner or full
+entity ID matches the driver. Global driver/anchor proofs bound activation;
+other profiles do not gain guessed offsets.
+
+For each exact quality owner, walk only the existing descriptor-hash chains
+across four renderer epochs. Require full vehicle/entity identity, fresh finite
+position, age at most500ms, no conflicting generation/owner, no tagged
+publication gap/overflow and no observed publisher in flight. Records are copied
+scalars; retained owner addresses are never dereferenced. The index is bounded
+by four banks of512 slots. Failed evidence preserves the ordinary selected cap.
+
+A separate context-owned128-slot scalar history, also protected by the selection
+token, keys full owner/entity identity. Enter distant quality at distance>=60,
+return to selected quality at distance<=50, and retain the prior choice between
+those thresholds. Distances use existing entity coordinates; metre units are
+not established. Histories expire after500ms, reset on configuration change or
+loss of the pass-wide driver/anchor proof, and fail open when full. No dynamic
+allocation, new hook, capacity change, descriptor write or forced resource
+release is added. The selected thresholds are experiment parameters, not native
+engine limits.
+
+Actual-source fixtures cover both caps, paired spotlights, driver protection,
+Original, both hysteresis directions, stale/ambiguous/missing identities and
+positions, publisher/token conflicts, table saturation and ID/clock reuse.
+Persistence/menu fixtures cover versioned transport and failures. These prove
+CPU decisions only. The historical backing-resource reuse caveat below still
+applies: native request/resource transitions in both directions and visible
+fidelity require runtime acceptance. No FPS improvement is claimed.
+[^background-query-review]
+
+## Observed request/resource behavior
+
+One preserved Global .89 run with background1024 enabled contains all1,200
+manager and1,200 queue samples over60 seconds, without missing buckets or
+partial packets. All27,318 recorded queue rows have matching requested and
+post-native CPU resource dimensions;2,294 rows specifically change a native
+4096 request to1024, with1024 resources. Consecutive sampled full handles also
+show transitions back to4096. These are repeated observations, not counts of
+unique shadows or uninterrupted resource histories.[^background-runtime]
+
+The human report says the stark draw-in remained and coverage was too short.
+The experiment's50/60 thresholds only choose quality inside the existing native
+range. They do not extend the maximum range. Reduced texture size also creates
+no extra admission slots:58,926 ordinary-eligible candidate observations in
+this capture are unbound. The sampled result cannot identify which of these
+caused a particular visible pop, prove GPU completion, establish FPS, or accept
+the separate512/Off/restart cases.[^background-runtime]
+
+An outer low-resolution band reaching twice the original maximum requires a
+separate native distance-eligibility change. Its reference must be the original
+range, not an arbitrary quality-switch threshold. The [native producer and
+lighting consumer](wd1-shadow-eligibility.md) explain why enlarging request-size
+thresholds alone cannot implement that behavior.
+
+[^background-runtime]: Strict capture decoding, copied settings/status/logs and user observation; preserved ASI matches its experimental delivery. CPU resource evidence is not visual acceptance.
+
+## Retirement boundary
+
+The .91 cleanup removes this distance-based runtime policy, its history and its
+menu controls. Ordinary fixed caps continue to apply uniformly to proven vehicle
+owners, including the driven car. The experiment's request/resource observations
+remain useful evidence: they establish reduced dimensions in one run, not extra
+admission capacity or a pop-in fix. Retired saved bits are handled by the bounded
+[settings migration](saved-settings.md). The cleanup retains per-light diagnostic
+observations for future research; offline equivalence is not visual acceptance.
+[^retired-policy-migration]
+
 # Historical experiments and proof limits
 
 The initial .38 policy fixed 2048; .41 exposed all four caps and covered 88 combined
@@ -119,3 +213,7 @@ Entity `bPolice` and light-preset `bEmergency` data exist, but no stable runtime
 CVehicle field bridges those tags into the proven owner token. Active type 1
 siren-like evidence cannot classify a police vehicle with siren disabled. Police
 priority stays disabled; renderer type is not a substitute for class/lifetime proof.
+
+[^background-query-review]: Actual-source policy/persistence/menu fixtures and source hashes for the opt-in request-size experiment; no game execution.
+
+[^retired-policy-migration]: Preserved pre-cleanup source and actual-source baseline fixtures; both native builds reproduce offline, with no game acceptance inferred.

@@ -11,6 +11,8 @@ tags:
 - automation
 status: draft
 sources:
+- resource: ../../../evidence/catalog.json#E-shadow-a4ee-capture-20261004
+  title: Mapped A4EE image and complete five-profile offline proof
 - id: validator
   resource: ../../../evidence/catalog.json#E-ebc961aaf6ec
   title: Runtime corpus validator
@@ -55,10 +57,30 @@ verifies the old immediate at every relocation,
 derives the new value from the owning `0x24C0`, `0x24C4`, or `0x24C8` region,
 and simulates every write in a disposable memory copy.
 
-The packed Shev/A4EE file remains identity-checked, but its frozen successful
-runtime attestation predates the new v 2.0.5 boundary. The validator therefore
-returns `manual-required` rather than pretending the old log proves new bytes.
-A mapped A4EE image or fresh runtime result is required to close that profile.
+The packed Shev/A4EE disk file alone cannot supply code at the manager hook RVA
+`0x0086D700`: that virtual range has no raw file bytes. Its historical successful
+runtime attestation predates later boundaries and cannot replace an image proof.
+
+A read-only A4EE capture on 2026-10-04 closes this missing-image gap. The loaded
+module was identified by its scoped executable/module path and PE identity:
+timestamp `0x5CD13864`, checksum `0x01E4FD51`, entry RVA `0x05824EE5`, image size
+`0x06595000`. The disk DLL SHA256 is
+`a4eead7a645ab4340a67622da4bfc91789e8cecfd53f605499a0e4b09b3ee60a`;
+the mapped image SHA256 is
+`171c6a2efc00b2404b5ff4a032dcfda42c162468a7767ef76989bb2cc894e7f8`.
+
+All 106,516,480 bytes were readable, with zero missing pages. Shadow Engine was
+disabled during capture, and the collector requested only process-query and
+memory-read access. It did not suspend, inject or patch the process. The image
+passes 71 core byte checks, 46 simulated relocation writes and quality-consumer
+proof at renderer `0x0089E4F0` / lookup `0x009550D0` (five queue spans, resource
+variant 0). Registering its hash as a mapped input makes all five profiles pass
+the same current offline gate. The image remains private and is reused for
+future candidates targeting this game version.
+
+This closes the core compatibility evidence gap, not optional-feature mapping
+or visual acceptance. Vehicle identity/finite-selection paths remain disabled
+for A4EE until separately mapped; Global-only features remain Global-only.
 
 # Boundary
 

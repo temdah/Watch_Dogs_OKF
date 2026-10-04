@@ -9,6 +9,24 @@ tags:
 - materials
 status: draft
 sources:
+- resource: ../../evidence/catalog.json#E-addons-native-flash53-offline
+  title: Five-image native pulse admission and endpoint-mask validation
+- resource: ../../evidence/catalog.json#E-addons-storm-polish52-offline
+  title: Staged geometry conversion and decoupled flash/cluster verification
+- resource: ../../evidence/catalog.json#E-addons-storm-polish50-observation
+  title: Automatic storm visibility and slow synchronized cluster observation
+- resource: ../../evidence/catalog.json#E-addons-controller48-offline
+  title: State ownership mitigation source controls and offline package gates
+- resource: ../../evidence/catalog.json#E-addons-runtime47-controller
+  title: Matched controller clock-comparison failures, cancellation loop and accepted weather reply
+- resource: ../../evidence/catalog.json#E-addons-service47-offline
+  title: Native host queue inspection and service-driver regression source controls
+- resource: ../../evidence/catalog.json#E-addons-runtime45-native
+  title: Internal .45 native runtime log
+- resource: ../../evidence/catalog.json#E-addons-runtime45-host
+  title: Matched .45 NexusTools runtime log
+- resource: ../../evidence/catalog.json#E-addons-activity46-offline
+  title: Bounded activity windows and concurrent flash/audio source and fixture controls
 - resource: ../../evidence/catalog.json#E-addons-sky-runtime41-20261003
   title: Loaded bolt definitions followed by spawn UID lookup failure
 - resource: ../../evidence/catalog.json#E-addons-sky-world41
@@ -461,3 +479,222 @@ owns the native component factory/vtable distinction, LOD/render-group checks,
 the failed observer control, and World/Near streaming mappings. A transform
 readback does not prove graphics publication, residency, occlusion or visibility.
 The .41 spawn-registry failure recorded above occurs before those checks.
+
+
+# Mod-owned activity windows and concurrent events
+
+A later internal-only implementation (2.1.46 source controls) separates the
+activity policy from mesh ownership and the native flash/audio mechanism. This
+is mod behavior, not a newly discovered native storm scheduler. Earlier sections
+above describe historical experiments; their file-based weather transport and
+independent flash scheduling do not describe this implementation.
+
+Lua polls the existing native weather gate through the validated string exchange,
+then owns a 60-second calm/strong window or a 30-second peak window. A separate
+20-40-second quiet phase follows. Peak selection has probability 1/50 per automatic
+window, not a guarantee that every block of fifty contains exactly one peak.
+Ordinary windows choose calm/strong with 75/25 weights. Explicit previews use the
+same owner and replace an active window instead of starting a competing scheduler.
+
+A volley owns at most three entity IDs, each retained losslessly as a decimal
+string. Name-based prototype resolution is retained. Each new volley samples
+current player coordinates; members share a narrow bearing sector at horizontal
+ranges 900-1500. Reveal/full/decay swaps preserve each member's origin and variant.
+Cleanup failure retains the ID and blocks replacement. Weather loss, player
+replacement, clock discontinuity, pause and unload cancel owned activity.
+
+The original single-event native owner could not accept simultaneous START
+requests while another event or its delayed thunder remained pending. An eight-slot
+pool now retains each accepted event's duration, distance, sound variation and
+serial under a critical section. A successful mesh spawn precedes its request;
+failed group setup cancels all submitted members. Audio delay uses distance/343,
+while simultaneous sky envelopes combine by maximum rather than addition. Active
+serial duplicates and full capacity are rejected. Native weather freshness and
+sound eligibility remain required; previews do not override weather.
+
+The last five seconds of a window admit no new volley, allowing a three-second
+mesh and up to 4.374-second thunder delay to complete before the quiet boundary.
+Timing uses the existing runtime clocks rather than accelerated world time.
+Offline fixtures exercise ten minutes of automatic timing, all three forced
+windows, probability boundaries, local cluster limits, animation stages, quiet
+periods, failure cleanup, pool saturation and actual Lua/native transport. The
+canonical internal-world profile passed with unchanged DAT/FAT/NFO payloads.
+These checks do not prove in-game visibility, smooth stage travel, audio balance
+or visual acceptance. The referenced archive preserves source/test controls;
+no human runtime result for this activity implementation is available.
+
+
+# Weather readiness is not controller execution
+
+The internal .45 game test reported working manual bolts but no automatic
+bolts/flashes. Its matched native log reaches STORM active after initialization;
+all six installed files matched the delivery. This proves a passing native gate
+at that point, not receipt of STATE in Lua or completion of a START request.
+No STORM_FLASH is recorded. The source driver already bypassed native random
+strike scheduling; failure cannot be attributed to waiting for a native random
+strike merely from the user-visible absence of lightning.
+
+Static inspection of NexusTools PE 6AB6AD4E/ED6000, SHA256
+03875bacfad447397305b9d5f19bcb07dc4473b99f7d1354604b4a2bb1dfe727,
+identifies SH_NextTick binding B4730 storing a Lua registry reference and enqueueing
+an invoker. B5E40 obtains the current VM at execution time, looks the reference up,
+and calls it only if helper D2440 identifies Lua type6 (function); the alternative
+path pops/unrefs the entry. Successful enqueue is therefore not a delivery
+acknowledgement. This static map does not prove reference loss in the .45 run.
+
+The mod pump's ordinary OnUpdate fallback previously refused execution while its
+queued flag remained set. A dropped-callback fixture reproduces indefinite idle
+with the old code despite subsequent OnUpdate calls. In internal .47 the fallback
+always drives the shared service, with same-clock duplicate suppression. A stale
+queue ticket expires after half a second; generation checks prevent late replaced
+callbacks from starting duplicate chains. Pause invalidates tickets, and a queue
+failure leaves ordinary updates operational. Automatic bolt animation also moves
+into this shared driver, removing its separate lost-callback lifetime dependency.
+
+The actual bundled Lua/native fixture runs both queue-only delivery and a separate
+run discarding every queued callback while registered OnUpdate continues. Both
+produce mesh requests, actual native flash envelopes and delayed audio in the
+harness; the latter also completes a strong-window preview and quiet break.
+Weather-reply and START-result traces are bounded in the existing host log.
+These are offline failure-recovery results. The .45 logs do not establish its
+exact failed boundary, and a .47 game test remains necessary.
+
+# Controller exceptions can mimic an inactive weather gate
+
+The subsequent internal .47 human test reported that continuous random preview
+worked but automatic activity and the window previews did not. All six installed
+files matched the delivered .47 archive. The matched host log contains14,923
+identical protected-call errors at generated line262: `attempt to compare number
+with function`. This line compares `now` and the captured `lastClock`, before the
+automatic controller calls STATE. The native log contains14,923 BOLT_CANCEL
+records: the pump's error path calls pause, which cancels storm activity and
+diagnostic aim. The service is executing and failing, rather than merely awaiting
+an undelivered queued callback.
+
+At the end of the recorded run, the first STATE request returns REPLY1 1 and is
+logged active=true; zero STORM_EVENT/START records exist. The preview entry path
+can request STATE without passing through the failed update clock check. This
+supports separating weather readiness from controller health. Continuous preview
+has its own scheduler and does not establish automatic-controller health.
+
+The error proves a wrong-type operand in the clock comparison. It does not identify
+which operand changed or explain the target VM's capture/storage behaviour.
+The same run had the separate Shadow Engine2.0.90 experimental Lua-frame repair
+active; this is configuration identity, not evidence that the repair caused the
+failure. No captured prototype/upvalue dump exists for the failing controller.
+Desktop Lua tests had passed, so they did not model this runtime failure.
+
+A scoped .48 mitigation places clocks, player/window state, counters and owned
+slots in one strong state table instead of independent mutable captures. It
+retains the existing weather gate and direct mod-owned START scheduling, without
+waiting for native random lightning. The auxiliary Lua5.1 compiler reports a
+maximum22 registers within this module versus30 previously; the generated bundle
+reports23. These are non-target compiler measurements, not proof of native frame
+safety or a repaired capture mechanism. Stack-reuse/forced-GC lifecycle fixtures
+pass under that offline Lua runtime; native game acceptance remains required.
+
+# Visible automatic activity and presentation timing
+
+A subsequent human test of the unchanged internal2.1.50 with active A4EE regional
+Lua-frame repair confirms bolts and flashes in ordinary storm weather. This
+establishes automatic visibility in that configuration, while the reported
+presentation remains unsatisfactory: close aligned clusters, simultaneous starts,
+slow bolt/flash progression and sparse calm activity.
+
+Source inspection distinguishes mechanism from appearance. Cluster members all
+receive the same start time. Angles advance by a fixed0.045 radians, and distance
+uses one center with plus/minus80 units of jitter. Independent variant/rotation
+selection does not remove that shared spatial/temporal pattern. Bolt lifetime is
+1.5-3 seconds; mesh boundaries occur at10/24/40/65/100 percent. The mod-owned
+native flash driver scales its stepped envelope across that same duration.
+Thus visual mesh readability also stretches sky illumination. These are authored
+mod policies, not measured native lightning timing. The human report is not a
+frame-duration capture, and replacement timing remains untested.
+
+# Porting approved centerlines and separating event clocks (historical control)
+
+The approved winding, forked and horizontal cloud-crawler study was converted into
+15 native XBG meshes: two arrival-time reveal stages, a full channel, branch decay
+and a dim main-channel tail. The original point coordinates remain unchanged;
+tangent-oriented tube rings support horizontal/nonmonotonic paths. A0.04-unit
+radius floor prevents quantized tip collapse; the native conversion widens authored
+radii by1.8 for distance readability. All decoded vertices differ by under0.005
+units, the retail template roundtrip is exact, and no quantized triangle collapses.
+These are format/geometry checks, not proof of game material appearance.
+
+Existing resource names/IDs, the World loading category and2048-unit visibility
+cutoff remain. Bounds are derived per mesh instead of assuming all variants have
+identical height. The inspection bolt is unchanged. The package comparison finds
+only15 sky XBGs and the appended entity-library bounds changed among1910 archive
+members;1894 entries, including world lighting and material/texture data, match
+the prior package exactly. Centerline equality is checked against the approved
+study separately from exporter roundtrip checks.
+
+The mod-owned service now keeps a0.8-1.5s mesh lifetime separate from70-180ms sky
+pulses. The main pulse begins at18 percent of mesh lifetime, aligned to full-channel
+entry, and may have a weaker short echo. Thunder starts after that main-stroke
+onset plus distance/343. The existing native sky output remains the rendering
+boundary. A separate FLASH command queues weaker, mesh-free, silent events;
+it does not implement localized illumination or replace the global sky flash.
+Twelve private native event slots cover delayed thunder plus brief extra flashes.
+Events combine by maximum intensity, not addition, and still retire on weather,
+pause, cancellation and session loss. No new native function/layout was assumed.
+
+Cluster planning samples a local angular region, keeps every member900-1500 units
+from the player, rejects pair distances outside180-650 and rejects three-point
+altitudes below90. Delays increase by120-420ms per member. Bounded failed placement
+attempts reduce member count rather than introducing an unsafe fallback position.
+At actual start each member samples the current player position; its resulting
+world anchor remains fixed for all animation stages. A late start with insufficient
+time for delayed thunder before the quiet boundary is discarded.
+
+Offline tests cover2000 cluster plans, absolute animation phases, cadence, silent
+breaks, prototype limits, twelve-slot saturation, non-additive overlap, distance
+thunder, mute/cancel and cloud flashes without a mesh/audio allocation. Real bundled
+Lua/native tests still work when queued callbacks are discarded and normal Script
+updates run. All125 shipped Lua prototypes pass with maxima23/14/3. Five-profile
+native gates and retained-lighting/archive checks pass. New target-game timing,
+visibility and audio acceptance remain unobserved.
+
+
+# Endpoint-domain masks and tighter distinct pairs
+
+Human feedback on the preceding presentation rejected the horizontal crawler and
+standalone cloud-flash appearance, the wide group arrangement, and the short custom
+white sky pulse. This is qualitative visual evidence; no frame capture or exact
+regional image was provided with the report. Offline geometry success had not
+predicted those aesthetic results.
+
+The retained winding/forked shapes each keep five reveal/full/decay stages. Only
+their ten meshes and prototypes enter the payload; crawler preview source remains
+historical material. Two-member groups use distinct shapes, independent rotations,
+65-190 units pair separation and120-420ms stagger. Bounded rejection sampling
+avoids a fixed angular row while retaining900-1500 units player distance. Two
+unique retained shapes cap a group at two rather than duplicating one in a triple.
+The2000-group corpus checks distance, spacing and delay; bundled-runtime tests
+check different prototype names within a pair. Real moving-scene appearance is
+still unverified.
+
+The earlier UV mask used generic z/350, although the winding trunk occupies roughly
+85-290 and the forked trunk70-315. Consequently its endpoints never reached both
+dark texture edges. UV v now uses `(z - trunkBottom)/(trunkTop - trunkBottom)`,
+clamped near0/1 and stable across reveal stages. The existing22-percent smooth
+luminance fades now align to each trunk's actual endpoints. An additional upper
+geometry taper spans14 percent, retaining a0.04 radius floor against quantization.
+The material and BC1 texture are unchanged. This is emissive endpoint masking;
+it does not create cloud volume, depth-aware occlusion or verified alpha blending.
+
+Independent decoding checks all ten exported meshes for vertex/UV error and
+degenerate triangles. Source tests verify endpoint UVs and stable coordinates
+across phases. Archive comparison against the prior control finds ten changed
+sky meshes, one changed appended entity library, five removed crawler meshes,
+and1894 byte-identical retained entries. The inspection bolt, materials, textures
+and retained world lighting remain identical.
+
+Standalone FLASH admission is removed. Each main-channel onset instead requests
+one [native animated pulse](basic-lightning.md#explicit-pulse-admission-with-native-animation).
+Bolt lifetime0.8-1.5s and activity intervals7-18/6-14/2-6s remain mod-owned policy,
+as do60/60/30s windows,1-in-50 peaks and20-40s quiet breaks. All124 final bundled
+Lua prototypes pass31/15/15, with actual maxima23 registers/14 upvalues/3 fixed
+parameters. All11 controls and existing ownership/lifecycle checks pass offline.
+Visual masking, flash character and native-boundary runtime acceptance are pending.

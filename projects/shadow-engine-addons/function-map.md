@@ -227,7 +227,21 @@ boundary that can prevent graphics creation entirely.
   unverified release, scene lifetime and execution-thread limits. Current 16-segment
   main chain omits generated branches; appearance and scene-lifetime acceptance remain incomplete.
 
-* [Custom lightning mesh](custom-lightning-asset.md): offline GEOM97.50 geometry
+* [Native pulse admission](basic-lightning.md#explicit-pulse-admission-with-native-animation):
+  five-build scheduler clocks+0/+4 admit mod-requested pulses while retaining
+  native flicker, duration and private vector ownership; static/offline evidence,
+  new calling context awaits runtime validation.
+
+* [Custom lightning mesh](custom-lightning-asset.md): also documents the later
+  mod-owned activity-window controller, bounded cluster ownership and native
+  multi-event flash/audio pool, with offline-only validation limits. The same
+  concept maps NexusTools 6AB6AD4E queued Lua registry callbacks (B4730/B5E40)
+  and distinguishes enqueue from delivery; controller recovery is offline-tested.
+  The .47 runtime subsequently exposes a pre-poll clock-comparison exception and
+  cancellation loop despite a separate accepted STATE reply; wrong-type origin
+  remains unproved, with a state-table mitigation awaiting game acceptance.
+  Historical observations below remain scoped to their original experiments.
+  Offline GEOM97.50 geometry
   export; all2,414 non-null authored fileModel IDs resolve by archive path hash.
   Also owns live relocated entity-transform evidence, the nearby/distant preview
   comparison and internal weather-observer activation policy. These add no engine
@@ -324,3 +338,5 @@ Current internal30 policy: [secondary streetlamp shadow exclusions](secondary-st
 retains lower-lamp illumination while leaving 80 approved caster flags off across
 426 matched placements. PCSS29 is retired after reported warnings and no
 discernible visual improvement; its implementation remains archived.
+
+* [Regional native compatibility](native-compatibility.md): five-build role mapping, constructor/final-table and unwind-fragment pitfalls, native code/layout equivalence, actual C gate mutation tests, and separate manual calibration.

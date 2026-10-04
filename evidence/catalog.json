@@ -1,6 +1,42 @@
 {
   "schema": 1,
   "entries": {
+    "E-addons-controller48-offline": {
+      "kind": "Controller state-ownership mitigation source controls and canonical offline package verification",
+      "availability": "not distributed in this repository",
+      "scope": "Internal .48 preserves weather/timing/assets and moves mutable state into one table. Offline lifecycle/GC and actual Lua/native bridge tests pass; observed .47 wrong-type failure is not reproduced. Runtime acceptance pending.",
+      "sha256": "e75edd18eca6662d2370049001f4dac8ed327e603075f3203c58f10335e5b85c"
+    },
+    "E-addons-runtime47-controller": {
+      "kind": "Matched internal .47 controller failure and installed package identity",
+      "availability": "not distributed in this repository",
+      "scope": "14,923 repeated number/function comparison errors at generated line262 and matching native cancellation calls; one STATE reply active=true, zero START records. Six installed files match .47. Wrong-type origin remains unproved; includes raw-log hashes.",
+      "sha256": "434e2c2b159bc84064fb987f5166aecbaaff39032d523cef2fa230e3e2b631a6"
+    },
+    "E-addons-service47-offline": {
+      "kind": "Native host queue inspection and service-driver regression source controls",
+      "availability": "not distributed in this repository",
+      "scope": "NexusTools 6AB6AD4E/ED6000 callback registry lookup/discard path; lost-callback fixture fails old controller and passes revised driver. Exact .45 runtime cause remains unproven; no .47 game acceptance.",
+      "sha256": "4d73115a66884b28d030a6d320785149a0bca5479bdd8e0a6557bce6e914a5c0"
+    },
+    "E-addons-runtime45-native": {
+      "kind": "Internal .45 native runtime log",
+      "availability": "not distributed in this repository",
+      "scope": "Installed native .45 identity, initialization and weather gate reach active; no STORM_FLASH record. Does not record Lua exchange replies or queued callback execution.",
+      "sha256": "154a6985c68355cff3291fd5da6dd312b7bad73bd3caca0be5cece5711c7c73f"
+    },
+    "E-addons-runtime45-host": {
+      "kind": "Matched .45 NexusTools runtime log",
+      "availability": "not distributed in this repository",
+      "scope": "October 4 session: autostart entrypoint registration and manual random preview spawns. All six installed files matched .45 delivery on inspection. No per-request automatic storm trace exists in this version.",
+      "sha256": "12d468d1b61c041251f65d631f4a6cb60890be38e75b05490c8745262a06dc32"
+    },
+    "E-addons-activity46-offline": {
+      "kind": "Internal storm activity policy, entity ownership and native event-pool source/test controls",
+      "availability": "not distributed in this repository",
+      "scope": "Internal 2.1.46 source and executable fixture inputs: bounded clustered mesh ownership, activity/quiet timing, native multi-event flash/audio, cancellation and parser capacity. Offline tests and full internal profile passed; no in-game visibility, animation or sound acceptance. Archive contains source controls, not a runtime capture.",
+      "sha256": "2a1d474da954768bc30f0f0df61b42aadb3beab033cd1364636e0fbc4adff34b"
+    },
     "E-1f061093e0ec": {
       "kind": "Population controls and memory-scope actual-source fixture output",
       "availability": "not distributed in this repository",
@@ -3165,9 +3201,9 @@
       "sha256": "407b79f6acdbbaff35394a2e1fe45b980b6ff26eb585bd185163f12553928c30"
     },
     "E-ee70408dc3e7": {
-      "kind": "Global candidate holder publication writer export",
+      "kind": "Historical Global frame-builder export; candidate-holder attribution corrected",
       "availability": "not distributed in this repository",
-      "scope": "Archived3DC780 decompilation; exact Global retained-image bytes corroborate primary virtual-slot+20 call3DD3C9 and render-record+40 store3DD3DD, separate alternate+48 stream. Actual virtual implementation/comparator and writable priority policy remain unresolved.",
+      "scope": "Archived3DC780 decompilation and corroborated call/store bytes. The former candidate-holder interpretation is superseded: mapped renderer slot20 supplies depth textures. Equal +40 offsets did not establish shared object identity. See the corrected candidate-production evidence.",
       "sha256": "ee70408dc3e7ea2ddde51678bfef0f6ec101a9888529479ec3d217010f2f5946"
     },
     "E-addons-sky-runtime40": {
@@ -3649,6 +3685,192 @@
       "availability": "not distributed in this repository",
       "scope": "Read-only original PE inspection and offline native/Lua fixtures. Both mapped hosts activate all 17 game Lua repair sites; unknown or unsafe optional capability is isolated. No .88 in-game acceptance or universal future-host guarantee.",
       "sha256": "84d5d1e2933b9ac563d0b289772dbb72c565c03cb677c743f87fb5dfce741670"
+    },
+    "E-nexus113-runtime-20261003": {
+      "kind": "NexusTools 1.1.13 and Shadow Engine 2.0.88 Global runtime compatibility acceptance",
+      "availability": "not distributed in this repository",
+      "scope": "User-reported successful compatibility test; installed binary hashes, mapped host state, 17 Lua repair sites and completed shadow startup verified. Does not establish slow-onset improvement, other profiles or future hosts.",
+      "sha256": "38dfd547e48d703525154848e1d2683a9511e34ce98fefb1dfd11ce8aa10206c"
+    },
+    "E-7cc7a309ee67": {
+      "kind": "Hash-gated Global candidate producer mapping and paired population analysis",
+      "availability": "not distributed in this repository",
+      "scope": "Corrected depth-texture attribution; actual holder allocation, priority/distance ordering, candidate distance fade and conditional coverage-query writer. Strictly decoded .87 pairs:472 eligible splits at rank24 and18974 wholly omitted eligible pair samples. Static and sampled evidence only; no visual fix or safe mutation established.",
+      "sha256": "7cc7a309ee67f0c96ada0572901e837b80d9b07dbe82dc7fe182c50631c30394"
+    },
+    "E-19eafa0c5c81": {
+      "kind": "Global occlusion-query mapping and opt-in background quality actual-source experiment",
+      "availability": "not distributed in this repository",
+      "scope": "Hash-gated factory/readback chain; unchanged native admission and cache. Offline distance-quality, persistence, menu and compatibility tests. No game execution, visual acceptance or FPS claim.",
+      "sha256": "19eafa0c5c81b1a7118fc40429c028d3c3a37eddf762d82ddc5ef4a8a4e8af1c"
+    },
+    "E-wd1-lightdata-20261004": {
+      "kind": "Hash-gated Global WD1 LightShadowFactor consumer and publication mapping",
+      "availability": "not distributed in this repository",
+      "scope": "24 instruction checks, seven direct calls, native names/constants, candidate factor/complement and fresh/cached block consumers. No runtime hook, GPU readiness, safe temporal write or visual fade established.",
+      "sha256": "8f5c589a422102b49a6dd411da36577a1cf10a45b23c733559b3557fe6665798"
+    },
+    "E-shadow89-runtime-20261004": {
+      "kind": "Global background1024 runtime request/resource observations and user feedback",
+      "availability": "not distributed in this repository",
+      "scope": "Complete 60-second capture:1200 samples per stream,27318 matching request/resource rows,2294 policy reductions to1024. Human report:stark onset unchanged and range too short. No512/Off/restart acceptance, GPU or FPS proof.",
+      "sha256": "9535acfebcad6e89ec732b2b01e3f47af4542aab091b1a82d7bff9676a36261b"
+    },
+    "E-shadow90-onset-20261004": {
+      "kind": "Global lighting-side vehicle shadow onset experiment and actual-source validation",
+      "availability": "not distributed in this repository",
+      "scope": "180ms factor-only ramp before caller publication; sparse byte proof, full-identity/clock/failure fixtures, synthetic executable ABI/rollback, reproducible builds and package lint. No in-game visual acceptance, faster preparation, doubled range or FPS result.",
+      "sha256": "8504e0c192216bda43aa3a31a1aca3ab6ecb4438ebc9d05f132d4f9980d1ab8a"
+    },
+    "E-shadow-budget-20261004": {
+      "kind": "Global .89 sampled admission, face occupancy and nominal area reanalysis",
+      "availability": "not distributed in this repository",
+      "scope": "1200 queue samples, peak28 faces and no sampled face clamp;2294 of26118 single-face occurrences reduced,9.03% nominal area reduction. Not GPU timing, memory occupancy, safe capacity or FPS proof.",
+      "sha256": "de4c673dfb27b320672a59bc2a1f56984aeedb0bca1cb561863bdc4c425dd035"
+    },
+    "E-shadow-baseline-20261004": {
+      "kind": "Retired shadow experiments, settings migration and baseline source/package validation",
+      "availability": "not distributed in this repository",
+      "scope": "Preserved experiment sources; removal of background-distance/fade code; SESAVE3 read migration and SE10 transport. Offline reproducibility, identity/quality/lifecycle/compatibility checks. No visual acceptance or performance claim; A4EE remains manual-required.",
+      "sha256": "7f6978e666f68703700254e16543f5a5dc05564c59e4936867d945c99a9308f7"
+    },
+    "E-shadow-compat-builder-20261004": {
+      "kind": "Automatic regional compatibility builder regression and byte-validation evidence",
+      "availability": "not distributed in this repository",
+      "scope": "Two reproducible ASI profiles; 31 passing gates, 21 native harnesses, four regional byte proofs. A4EE unpacked image and initial manual calibration are missing. No new game, visual or performance acceptance.",
+      "sha256": "b3aef34810dfb679f08f5098c7aef1d023d25369742183deb64b08cd55287754"
+    },
+    "E-shadow-a4ee-capture-20261004": {
+      "kind": "Read-only mapped A4EE runtime capture and five-profile offline compatibility evidence",
+      "availability": "not distributed in this repository",
+      "scope": "106516480-byte A4EE image, zero unreadable pages, 71 exact core checks, 46 simulated relocations and quality-consumer proof. All five regional profiles and 31 builder steps pass. Shadow Engine was disabled during capture; no .91 game acceptance or manual calibration is implied.",
+      "sha256": "627549ef5f67ed248f4e29771d40802612cf31c8592fd53d6282321245d04b1f"
+    },
+    "E-shadow-support-report-20261004": {
+      "kind": "Staged support-report controller, public menu and archive safety fixtures",
+      "availability": "not distributed in this repository",
+      "scope": "2.0.92 actual-source tests:43 controller/ZIP checks,728 desktop menu checks, six independent archive checks, both reproducible builds and five regional byte gates. No game acceptance or initial calibration.",
+      "sha256": "089dac703a03d95197eae2d2db23f19444efd4c083b8849cb6bc4df9fe90ff3b"
+    },
+    "E-shadow-tools-frame-20261004": {
+      "kind": "Menu startup rejection, oversized Lua module frames and corrected compiler gate",
+      "availability": "not distributed in this repository",
+      "scope": "Global .92 gameplay reported stable, tools rejected. Offline module roots34/35 exceed31; corrected78 prototypes maximum29,728 menu checks,33 passing builder gates and5 regional byte checks. Native ASI unchanged; corrected tools runtime pending.",
+      "sha256": "a004b733582b74f2477d9523e641de9d1dc72f9660a82bc500a353bbb2e5f803"
+    },
+    "E-shadow-a4ee-menu-crash-20261004": {
+      "kind": "Matched A4EE exception records and Lua startup failure analysis",
+      "availability": "not distributed in this repository",
+      "scope": "Two read AVs at A4EE RVA004D7561, null RCX and Lua-upvalue path inference; closure heap absent, exact corruption source unresolved. Offline 29-register pass did not establish runtime acceptance.",
+      "sha256": "2ecff7f8444a8c570ea83d957507c5d7d831948c38c91b933c95e1d2fef959b3"
+    },
+    "E-shadow-upvalue-limit-20261004": {
+      "kind": "Packed Lua upvalue metadata contract and source-level correction",
+      "availability": "not distributed in this repository",
+      "scope": "A4EE low-nibble compiler increment, binding emission and VM construction; identical increment sequence in five regional images. Before16/after12 source captures;728 behavior checks; runtime correction not yet accepted.",
+      "sha256": "b20fdda30a65ab2f36b9ce84f96e5d64bd7f44dae16eff4412af6d8c3e718b99"
+    },
+    "E-shadow-a4ee-addons-menu-20261004": {
+      "kind": "A4EE extension initialization rejection and missing-menu boundary",
+      "availability": "not distributed in this repository",
+      "scope": "Addons2.1.48 storm initialization unavailable on A4EE; Global-only native gate and Lua early return before registration explain missing menu. No Addons change or regional port performed.",
+      "sha256": "f025ee02b272a1b33f2a7a72715f003f18ef8ff6a7366a452667a0787ba617fd"
+    },
+    "E-addons-five-build-native-20261004": {
+      "kind": "Addons-specific five-build native mapping, compiled validator and prototype evidence",
+      "availability": "not distributed in this repository",
+      "scope": "Global, unpacked A4EE, VMPless, Complete and Asia: frozen native code/layout/xref proofs; C gate mutation and relocation checks. Constructor/base-vtable and unwind-fragment failures retained. Internal Lua120 prototypes fits23/14/3. No new manual or visual acceptance.",
+      "sha256": "b0cf8289b9a18c4feed1b6c7ec77e67a3c6541835df920b09abd0907f4df6b94"
+    },
+    "E-addons-five-build-delivery-20261004": {
+      "kind": "Final public/internal regional gate and package equivalence evidence",
+      "availability": "not distributed in this repository",
+      "scope": "Both compiled Addons data units pass five real images and mutation/relocation controls. Four canonical packages preserve source/export boundaries and assets;120 internal and6 public prototypes meet31/15/15. No manual acceptance.",
+      "sha256": "8bec474fcbb6deb90506ae02b0ce0d346df25666c040f5ba69f1f3558a7ff77c"
+    },
+    "E-addons-a4ee-table-crash49-20261004": {
+      "kind": "Matched A4EE Lua table-lookup crash and installed final-bundle prototype audit",
+      "availability": "not distributed in this repository",
+      "scope": "PID33832 read AV at004D93A2 with invalid Lua node pointer; .49 six installed members match delivery; all120 Addons prototypes within23/14/3; active Trainer Items root requires52 registers. Heap absent; exact victim/writer and causation remain unproved.",
+      "sha256": "e5ca9fcbe2b180a1dc99cc450603b4162236a2d736ffa094efb138a1118dbd35"
+    },
+    "E-trainer-items-frame-correction-20261004": {
+      "kind": "Incremental Lua table construction with semantic and lifetime regression checks",
+      "availability": "not distributed in this repository",
+      "scope": "Known Trainer Items source reduced from52 to4 registers with all2753 ordered records,11012 fields and72 categories preserved;289 forced auxiliary-Lua collections. Source hash mismatch and malformed input rejected. No target game execution or proven historical corruption writer.",
+      "sha256": "3a47506f97364e728b3bc977b3e5876335a9d803fc81e10fe0726488906607a3"
+    },
+    "E-addons-menu-lifetime50-20261004": {
+      "kind": "Deferred menu ownership regression and unchanged-native package comparison",
+      "availability": "not distributed in this repository",
+      "scope": "Addons49 drops category Lua owner;50 retains full UI and stable callbacks. Deferred GC/redraw/partial-registration tests pass; all11 controls and121 prototypes fit23/14/3. ASI and DAT/FAT/NFO unchanged. Contract test does not reproduce native host AV; game acceptance pending.",
+      "sha256": "2aeefd8511346e6d330bd9669034baa81f3fa2033556a0eaf0867c29a062d552"
+    },
+    "E-shadow-lua-regional-20261004": {
+      "kind": "Five-profile Lua frame repair mapping and native regression evidence",
+      "availability": "not distributed in this repository",
+      "scope": "85 patch locations,50 surrounding fingerprints,241280 isolated native compiler/verifier/VM checks and8941 actual-module host/transaction checks. Candidate installed for A4EE testing; startup exclusion and full lifecycle unproved.",
+      "sha256": "03ef925091b491d74df86475e1895739b552b471286bb73159e4101f52da6d2d"
+    },
+    "E-addons-a4ee-table-crash50-20261004": {
+      "kind": "Matched A4EE repeat failure after deferred-menu ownership change",
+      "availability": "not distributed in this repository",
+      "scope": "Six installed .50 files match delivery;121 final Lua prototypes pass23/14/3. Same004D93A2 and invalid RAX as .49. Missing Lua heap prevents source/writer attribution. Ownership mitigation failed at runtime.",
+      "sha256": "afbfefee2bbff9221cbd48f76655c2062081cd82af7ecf6826bdca771b4b5fa5"
+    },
+    "E-addons-a4ee-runtime50-provider95-20261004": {
+      "kind": "Human Addons startup success with active A4EE Lua-frame repair and unchanged installed package",
+      "availability": "not distributed in this repository",
+      "scope": "User reports .50 works after provider2.0.95; log confirms A4EE frame repair ACTIVE and accepted storm events. Same six installed Addons hashes. Prior exact corrupting object remains unknown; other regions and detailed visuals/audio not validated.",
+      "sha256": "f307575a66818de871299ee9b64fce17460e0099fcf0cc37a32c8cc3829a8a17"
+    },
+    "E-addons-storm-polish50-observation": {
+      "kind": "Human regular-storm visual observation and matching timing/placement source inspection",
+      "availability": "not distributed in this repository",
+      "scope": "Automatic bolts/flashes visible on active A4EE with provider repair. Same-time clustered placement and shared1.5-3s bolt/flash envelope match reported synchronized slow appearance; no replacement tuning accepted yet.",
+      "sha256": "951467f89e4c949de29c3ab015656276261481d70a78df5cfa497ff8aca7d5b2"
+    },
+    "E-shadow-a4ee-lua-runtime95-20261004": {
+      "kind": "Human A4EE acceptance with active regional Lua frame repair",
+      "availability": "not distributed in this repository",
+      "scope": "Shadow Engine2.0.95 PID6252 activated17 A4EE repair sites; user reports everything runs and A4EE stable. Preserved native and host logs. Other regional gameplay and exhaustive lifecycle safety not inferred.",
+      "sha256": "7d01f269355879a0ce67f847961858a8adcc3cc17bb1ec354e39de5811594afe"
+    },
+    "E-addons-storm-polish52-offline": {
+      "kind": "Approved centerline conversion, independent pulse/cluster policy and canonical package checks",
+      "availability": "not distributed in this repository",
+      "scope": "15 decoded XBG stage meshes preserve approved winding/forked/crawler centerlines; private flash timing decoupled from mesh lifetime; independent cloud-only events and staggered spatial groups. Offline native/Lua,2000-cluster,archive/lighting and all-five profile gates pass. Target visual/audio acceptance pending.",
+      "sha256": "6a6794809d2f52006a61aeb6a504da36ef6af4406a80eba8c03687729bf57a3b"
+    },
+    "E-shadow-vmpless-lua-runtime95-20261004": {
+      "kind": "Human VMPless acceptance with active regional Lua frame repair",
+      "availability": "not distributed in this repository",
+      "scope": "Shadow Engine2.0.95 PID32320 activated17 VMPless repair sites and downstream shadows; Tools2.0.94 ready. User reports working. Native summaries have zero store/release failures; Nexus logs retain hook errors. No exhaustive lifecycle or remaining-region acceptance inferred.",
+      "sha256": "03d6bacaf9dfbcf50a33a2f790b85e31d4c0b3f6dd9094b22f78af368cfacf37"
+    },
+    "E-shadow-complete-lua-runtime95-20261004": {
+      "kind": "Human Complete Edition acceptance with active Lua frame repair",
+      "availability": "not distributed in this repository",
+      "scope": "Shadow Engine2.0.95 PID33156:17 Lua repair sites, downstream shadows and Tools2.0.94 ready. Human reports working. Native summaries show zero store/release failures; host has unnamed hook and trackingconfig errors. No exhaustive lifecycle claim.",
+      "sha256": "ee2e4af47ce7821f8f98e9f3849524651f10701efbbcd09427e5094d3f922e2e"
+    },
+    "E-shadow-asia-lua-runtime95-20261004": {
+      "kind": "Human Asia/Miru acceptance with active Lua frame repair",
+      "availability": "not distributed in this repository",
+      "scope": "PID18360 Shadow Engine2.0.95 activated17 Asia repair sites and downstream shadows; Tools2.0.94 ready. User reports working. Host unnamed hook/trackingconfig errors preserved. Global current-candidate acceptance and full lifecycle remain unproved.",
+      "sha256": "ac0218dfbd15447a38ebe41f9b9c61bc4a85202ddecf7be2bbb75fb6242cb2f0"
+    },
+    "E-addons-native-flash53-offline": {
+      "kind": "Native pulse admission, masked XBG conversion and isolated package validation",
+      "availability": "not distributed in this repository",
+      "scope": "Five pinned schedulers verify private wait/elapsed admission clocks. Actual native animation replaces custom envelope; two retained masked shapes and tight staggered groups. Offline tests and package comparison pass; prior human visual rejection is separate and new boundary has no runtime acceptance.",
+      "sha256": "21f9faff34dbc495525cd023f51d6121eeb1e6a6fea354472634c39b390d1564"
+    },
+    "E-shadow-five-profile-runtime95-20261004": {
+      "kind": "Same-artifact five-profile gameplay acceptance and calibrated compatibility gate",
+      "availability": "not distributed in this repository",
+      "scope": "Identical2.0.95 ASI accepted by user on all five game builds; matching17-site Lua activation, downstream shadow startup and Tools ready.35 offline gates pass after recording all five observations. Optional feature coverage differs; no exhaustive Lua lifecycle or FPS claim.",
+      "sha256": "363cb4fef1d954aabefcd8f2caa12678ce102c6541767d053cc337e46105d9ed"
     }
   }
 }

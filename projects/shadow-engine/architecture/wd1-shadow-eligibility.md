@@ -11,8 +11,17 @@ tags:
 - performance
 status: draft
 sources:
+- id: lighting-consumer
+  resource: ../../../evidence/catalog.json#E-wd1-lightdata-20261004
+  title: Global LightShadowFactor registration, candidate consumer and command publication
+- id: background-query-review
+  resource: ../../../evidence/catalog.json#E-19eafa0c5c81
+  title: Occlusion-query mapping and bounded background-quality experiment
+- id: producer-review
+  resource: ../../../evidence/catalog.json#E-7cc7a309ee67
+  title: Global candidate producer, distance and query writers, and paired .87 observations
 - resource: ../../../evidence/catalog.json#E-ee70408dc3e7
-  title: Global candidate-holder publisher and unresolved virtual producer
+  title: Historical frame-builder export; candidate-holder attribution superseded
 - resource: ../../../evidence/catalog.json#E-077cac7a56c4
   title: Global87 whole-pass population binary
 - resource: ../../../evidence/catalog.json#E-3724261dfc5f
@@ -97,22 +106,166 @@ renderer submissions. The downstream queue/face producer is owned by the
 
 # Candidate-list publication boundary
 
-The Global body at `003DC780` obtains a primary candidate holder through the
-renderer interface's indirect slot `+20`, then publishes it to render-record
-`+40`, retaining a fallback-holder case. The retained image independently
-corroborates call bytes `FF 50 20` at `003DD3C9` and store bytes `49 89 47 40`
-at `003DD3DD`. The callback `003C6CE0` passes that holder to `0030A570`, whose
-manager call receives the holder's head/count. This confirms the ownership
-handoff, not the holder's insertion, sorting or priority policy.
+**Correction:** the earlier attribution of `003DC780` virtual slot `+20` to
+candidate production was invalid. Exact call/store bytes proved instructions,
+not object identity. In the concrete renderer family constructed at `004076A0`,
+vtable `02EAEDC0` slot `+20` points to `00434470`, which selects/creates depth
+textures, names resources `DepthTextureSS`/`DepthTextureMSAA`, and returns
+resource `+38`. Its destination `+40/+48` fields must not be conflated with the
+candidate holder merely because the offsets match. A live receiver was not
+captured; this is a static type-family mapping.[^producer-review]
 
-A second indirect call at `003DD428` supplies an alternate holder at record
-`+48`; it must not be merged with the primary stream. The concrete unresolved
-producer is the primary receiver's slot `+20` implementation. Its comparator,
-key inputs, insertion stability and complete-light-group semantics are not
-established by the caller or the sampled first24 admission result. Descriptor/
-candidate factor writers are also separate from this holder assignment.
-These are static Global roles with an exact-byte cross-check, not live object
-identity or authorization to permute candidates or write native descriptors.
+The actual candidate-holder allocation is in `003CA2E0`: a `A0`-byte object
+has head `+0 = 0`, tail `+8 = self`, count `+10 = 0`, and `+18 = 0`, then is
+stored at `(*argument2)+40`. It is passed to `002DFF40` and to the dependent
+extents-results job scheduled by `002D66D0`. The subsequent
+`PrepareShadowVisibility` callback `003C6CE0` supplies that same record field
+to `0030A570`. The latter's manager call consumes head/count. These are frame/job
+borrowed records, not persistent mod-owned storage.[^producer-review]
+
+# Candidate construction, order and distance factor
+
+The pre-shadow call at `003CA725` sets argument5 to one. On this path,
+`002DFF40` retains a single worker job (the alternate path obtains a worker
+count) and schedules `0048D7E0`. That worker constructs 16-byte sort records:
+signed descriptor `L+48`, squared positional distance, and the light pointer.
+Type0 uses the special key `INT_MIN` and zero distance. Sort `0048FB10`, with
+comparison paths in `0048DE60` and `0048E650`, orders ascending signed key,
+then ascending finite distance. Equal-key stability is not established. This
+is already priority-then-distance ordering, not arbitrary arrival order or a
+complete-vehicle grouping policy.[^producer-review]
+
+The worker calls `0048CE20` in that order. It allocates/copies a `90`-byte
+candidate, publishes descriptor/spatial pointers, links it to the list, and
+atomically increments its count. Candidate addresses are therefore unsuitable
+as durable vehicle identity across frames. Descriptor registration's property
+`selPriority` at relative `+40` is consistent with descriptor `+48`; its writer,
+sharing and safe mutation contract remain unproved.[^producer-review][^metadata]
+
+`0048CE20` also initializes `C+68` to `1.0` at `0048D491`. For enabled ordinary
+shadow lights, excluding types0/2 and flags `0x84000000`, it applies an optional
+category factor and a positional-distance factor. For finite descriptor `L+50`
+fade width above native epsilon (approximately0.001, constant RVA `02E565E4`),
+the latter is `clamp((L+4C - distance) / L+50, 0, 1)`; for fade width at or below
+epsilon it becomes zero beyond `L+4C`. Positions are read from
+the light and current view/job context. This maps a native distance-fade
+producer; it does not prove units in meters, permission to change descriptor
+data, temporal blending, or that a particular visible pop-in was distance-caused.
+The manager subsequently checks this factor against its epsilon.[^producer-review]
+
+# Lighting consumption of the distance factor
+
+For the same Global rebuilt image (SHA256
+`d8004145fb17bd6a9073466ebb9bfc19589aad7d08d8ec3fd45733a5d8ad0855`),
+`003A2520` registers `LightData` and its `LightShadowFactor` field. The latter's
+header is at block `+150`, payload at `+160`, with registered type `104`.
+`LightShadowTexture` uses payload `+198`. These names come from native
+registration, independently of the successor game's layout.[^lighting-consumer]
+
+`0031A8C0` populates that block from a candidate, spatial data and descriptor.
+It reads `C+58` at `0031AA2B`; a null backing skips the shadow texture/factor
+branch. Otherwise the texture is the optional sixth argument, or `backing+40`,
+stored at block `+198`. There is **no non-null texture or GPU-completion test**
+at that assignment. A backing pointer alone must not become a new readiness
+claim.[^lighting-consumer]
+
+For type1 and other nonzero types including type3, the helper copies `C+68`
+into block `+160` and computes `1 - C+68` into `+164`. The type1 sites are
+`0031ADBF/0031ADC9` and `0031ADF1/0031ADF6`; the other-type sites are
+`0031AED9/0031AEE3` and `0031AF0B/0031AF10`. Native dirty-bit handling precedes
+these writes. Type0 has a separate descriptor-derived branch. This establishes
+the WD1 CPU factor/complement consumer; it does not establish the shader's
+complete blending equation, temporal fading or visible correctness.
+[^lighting-consumer]
+
+Lifetime matters: `0031B3B0` returns an existing candidate `+80` block when
+present. Otherwise it allocates/copies a `560`-byte template, invokes the
+population helper, and atomically publishes to argument3 `+80`. That argument
+must not be assumed identical to argument1 without its caller's proof.
+Separately, local-light job `00490AD0` allocates a fresh block, calls the helper
+at `00490E3A`, and passes the result to `00490A00` at `00490F3B`. The latter
+appends the block pointer to a native command record. The helper is not proof
+that every later consumption refreshes an already-published block. Retaining
+these borrowed pointers or rewriting published data from another callback
+requires an additional ownership/lifetime contract.[^lighting-consumer]
+
+Two consequences constrain range extension and onset masking:
+
+- `C+68` combines category and distance factors. Once zero, its value does not
+  reveal which factor disabled the shadow. Replacing zero at manager admission
+  can undo a non-distance gate; changing only texture request size changes
+  neither factor. A distance-only extension must preserve the independent
+  category, enable, coverage and capacity rules, including any earlier culling.
+- A temporal multiplier applied before admission can itself fall below the
+  manager epsilon and prevent allocation. A lighting-side multiplier avoids
+  that specific dependency, but needs stable identity, a defined onset clock,
+  cached/fresh consumer coverage and native resource lifetime proof first.
+
+These are static implementation constraints, not a new runtime patch. The
+reproducer verifies 24 instruction sites from unwind-range boundaries, seven
+direct calls to the population helper, native names/constants and the preserved
+experimental ASI's delivery identity. Other profiles remain unmapped for this
+new boundary.[^lighting-consumer] The subsequent
+[bounded onset experiment](incoming-vehicle-readiness.md#lighting-side-onset-experiment)
+uses the original population call's borrowing window, rather than keeping block
+pointers for later writes. Its visual result and cached-refresh coverage remain
+runtime questions.
+
+[^lighting-consumer]: Hash-gated native Global disassembly and bounded instruction/call verification; no game execution or visual fade proof.
+
+# Coverage-result publication
+
+`002D66D0` schedules `CShadowRenderer::GetExtentsResults`, callback `002CC700`,
+after the population dependency. That callback traverses holder head/count and
+can write `C+78` at `002CCB76`. It requires positive configuration `+A6C`, normal
+mode, a valid per-spatial query index, unsigned result-counter age below five,
+a view-stability counter greater than five, and no detected view/config change.
+The view test compares positional displacement and orientation against native
+constants and updates saved context state. These counters are not proven
+seconds or presented frames.[^producer-review]
+
+Query scalar accessor `0034D530` calls `0034D3C0`, which consumes available
+resource results and retains the last scalar and associated counter. Accessor
+`00333840` reads that counter; `00344E30` acquires the resource written to `C+70`.
+The factory/readback chain is now mapped separately below. The initial/template
+value of `C+78` remains unproved. Coverage is not a directly writable world-distance
+limit; no readback-stall timing or safe replacement scheduling rule follows.
+[^producer-review]
+
+## Occlusion query factory and nonblocking readback
+
+`00344D90` acquires a query wrapper and falls back to `001EFE10(1)`. The latter
+allocates a `20`-byte wrapper with vtable `02E63C90`, initializes its divisor byte
+at `+14` to one, and passes descriptor `{1,0}` to device virtual slot `+C0`,
+storing the result at wrapper `+8`. This is the D3D11 `CreateQuery` ABI with
+`D3D11_QUERY_OCCLUSION`, not an event/fence query. Occlusion returns the number
+of samples passing depth/stencil tests; it does not certify a shadow texture's
+completion. The result's exact issue geometry/cadence remains unmapped.
+[^background-query-review]
+
+Wrapper virtual slot `+28` resolves to `001EA240`, a tail thunk to `001E2550`.
+The `0034D3C0` caller passes wait=false. `001E2550` calls context virtual slot
+`+E8` (`GetData`) with an eight-byte result and flag1 (`DONOTFLUSH`). On pending
+`S_FALSE` it returns false without polling again on this path. Its separate
+wait=true path can retry with flags zero, but that is not the mapped coverage
+call. On success, it uses the low32 result bits and ceiling-divides by wrapper
+`+14`'s current byte, then clears the pending byte at `+18`. The factory's
+initial divisor does not prove it can never change. The higher accessor retains
+the previous scalar/counter when a result is unavailable. Static nonblocking
+control flow does not measure driver latency or total GPU cost.
+[^background-query-review]
+
+`0048CE20` copies a `90`-byte candidate template from argument10 `+70` at
+`0048D163..0048D173`; this identifies how an initial `C+78` enters the object,
+not its initial scalar value or a safe writer. Bounded immediate-store searches
+at `+78/+108` produced unrelated stack/object matches and no proven initializer.
+The native priority input's values/writers for visibly affected lamps also remain
+unresolved. No coverage override, forced query wait or cache enlargement was
+selected from these findings.[^background-query-review]
+
+API semantics: [D3D11 query types](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ne-d3d11-d3d11_query)
+and [GetData flags](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ne-d3d11-d3d11_async_getdata_flag).
+
 
 # Ordinary admission predicates and budget
 
@@ -150,9 +303,10 @@ after the call; neither24 ordinary records nor20 dynamic positions is a universa
 reduced-mode bound. The first retained candidate's type0/base-predicate status
 also affects that adjustment.[^manager][^population-profile]
 
-`C+78` participates in a normalized coverage comparison; its producing subsystem
-and physical meaning remain unproved. Neither it nor `C+68` is established as a
-writable world-distance threshold. Admission omits the downstream queue/caster
+`C+78` participates in a normalized coverage comparison; its conditional query
+writer and occlusion-query resource are mapped above; initial value and query
+issue geometry/cadence remain incomplete. `C+68` includes a distance fade, not a writable distance threshold.
+Admission omits the downstream queue/caster
 work, but no measured CPU/GPU saving or safe earlier preparation mechanism
 follows from these predicates alone.
 
@@ -286,6 +440,30 @@ the admission boundary for further correction analysis; it does not prove that
 native list order is wrong or authorize a replacement priority, gate override
 or capacity increase.
 
+# Paired type3 observations in the .87 pass
+
+Grouping each sample by valid, unambiguous full-generation vehicle/entity
+identity yields 37,379 observations with exactly two retained type3 records;
+69 singleton groups are excluded. These are candidate headlight pairs, not
+visually identified lamps or counts of distinct vehicles/events.[^producer-review]
+
+| Copied pair state | Pair-sample observations |
+| --- | ---: |
+| Both ordinary-eligible, both admitted | 9,422 |
+| Both ordinary-eligible, neither admitted | 18,974 |
+| Both ordinary-eligible, only one admitted | 472 |
+| Both below the coverage threshold | 8,349 |
+| One coverage-rejected, one ordinary-eligible | 162 |
+
+Every one of the 472 eligible split pairs straddles ordinary rank24. A grouping
+change could alter these split outcomes, but most fully eligible omitted pairs
+lose both lights; grouping alone would not address those omissions. Preserving
+two-light groups at a fixed budget can displace another light and must account
+for native priority, special entries and physical faces. Repeated samples are
+not independent visual events. The capture lacks the native priority key,
+distance inputs and exact visible-light identity; it cannot determine which
+competing shadows should win.[^producer-review]
+
 # A second shadow-enable consumer
 
 `002C1220` resolves the descriptor from `S+50` through `025AEA10` and descriptor
@@ -303,8 +481,11 @@ temporal/dither transition.[^metadata]
 
 # Ownership limits and evidence requirements
 
-The actual candidate constructor, `C+68`/`C+78` writers and list publication
-boundary remain unmapped in this bounded review. Before filtering earlier, recover:
+Candidate construction, list publication, priority/distance sorting and factor
+writers and occlusion readback are now statically mapped above. Descriptor
+ownership, initial coverage, query issue geometry/cadence and a safe earlier
+mutation boundary remain incomplete.
+Before filtering earlier, recover:
 
 1. Relevant `L+0D` writers and writable/published descriptor ownership,
   template sharing, copy-on-write and dirty propagation.
@@ -338,3 +519,6 @@ policy. Vehicle-owned type 1 is not a proved siren classification.
 [^metadata]: Native light property registration, not a writable API proof.
 [^physical-setters]: Native physical light enable publication.
 [^resolver]: Native spatial resolve/copy/publication mechanism.
+[^producer-review]: Hash-gated Global image inspection and strict CRC/schema decoding of the existing .87 capture; preserved script, disassembly, input hashes and aggregate results. Static mapping and sampled observations establish no visual improvement.
+
+[^background-query-review]: Hash-gated Global wrapper factory, concrete vtable and chained-unwind readback exports; static evidence only.

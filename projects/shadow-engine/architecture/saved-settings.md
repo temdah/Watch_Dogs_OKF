@@ -9,6 +9,12 @@ tags:
 - lifecycle
 status: draft
 sources:
+- id: retired-policy-migration
+  resource: ../../../evidence/catalog.json#E-shadow-baseline-20261004
+  title: Retired experiment removal and settings migration fixtures
+- id: background-query-review
+  resource: ../../../evidence/catalog.json#E-19eafa0c5c81
+  title: Occlusion-query mapping and bounded background-quality experiment
 - resource: ../../../evidence/catalog.json#E-54ba79f66f80
   title: Global 80 Unlimited and quality setting changes
 - resource: ../../../evidence/catalog.json#E-72f305a1f5ef
@@ -74,7 +80,7 @@ An older SESAVE1 record used a remembered count of 10 for two meanings. SESAVE2
 adds an explicit Unlimited marker. An active old 10 normalizes to Unlimited;
 a disabled old record remembering 10 remains disabled. Loading does not rewrite
 the file or increment revision, repeated startup has the same interpretation,
-and an identical request remains a no-op. The next real edit writes SESAVE2.
+and an identical request remains a no-op. The next real edit writes the applicable current format.
 
 The recorded Global 2.0.80 run saved two revisions and restored the latter on the
 next startup. This proves those recorded choices and persistence, not every
@@ -90,3 +96,32 @@ newer unobserved edits survive an older save result. Native status is authoritat
 and session changes discard old presentation state. See
 [host callback behavior](menu-host-compatibility.md) and the
 [control ABI](control-api.md). Saved revisions do not prove a rendered change.
+
+# Historical background setting version ownership
+
+The .89 experiment assigns policy bits20..21 to Off/512/1024 and change mask32
+to the background setting. SESAVE1/2 reject those bits, so malformed older
+records cannot activate it. SESAVE3 accepts them and preserves the existing
+limit/cap invariants. Older valid files load with background Off without rewrite.
+An enabled background choice writes SESAVE3; explicitly switching Off writes
+SESAVE2 again. This permits older-build settings compatibility after an explicit
+Off save; an older parser presented with enabled SESAVE3 instead falls back.
+Legacy partial edits preserve the background field because unrequested fields
+remain owned by the saved record. Save failures preserve both active policy
+and the previous file. Actual-source restart, format/range and failure fixtures
+cover these rules; in-game persistence acceptance is separate.
+
+# Removing a persisted experimental field
+
+The .91 cleanup removes the background policy from the runtime, while retaining
+a bounded SESAVE3 reader. It validates the retired two-bit field as0..2, then
+discards only those bits before applying the ordinary policy/world invariants.
+Reserved value3 and unrelated unknown bits still reject; SESAVE1/2 never gain
+ownership of the retired field. Existing limit, quality, world choice and revision
+survive loading. Startup performs no replacement or revision increment; the next
+real edit writes SESAVE2. Retired change-mask32 and SES3 transport requests return
+rejection without queueing a write. Actual-source tests cover both build profiles,
+nondefault choices, reload, unchanged disk bytes and normal edits. This is an
+offline migration result, not in-game persistence acceptance.[^retired-policy-migration]
+
+[^retired-policy-migration]: Preserved pre-cleanup source and actual-source baseline fixtures; both native builds reproduce offline, with no game acceptance inferred.

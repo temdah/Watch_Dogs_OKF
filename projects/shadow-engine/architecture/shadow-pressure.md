@@ -11,6 +11,16 @@ tags:
 - capacity
 status: draft
 sources:
+- resource: ../../../evidence/catalog.json#E-shadow-budget-20261004
+  title: Retained Global .89 admission, face occupancy and nominal single-face area reanalysis
+- resource: https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@17.0/manual/Shadows-in-HDRP.html
+  title: Unity HDRP 17 adaptive shadow resolution, atlases and mixed caching
+- resource: https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@17.0/manual/shadow-update-mode.html
+  title: Unity HDRP 17 independent cached-shadow update modes
+- resource: https://dev.epicgames.com/documentation/en-us/unreal-engine/movable-light-mobility-in-unreal-engine
+  title: Epic movable-light shadow cache benefits and invalidation limits
+- resource: https://dev.epicgames.com/documentation/en-us/unreal-engine/megalights-in-unreal-engine
+  title: Epic stochastic many-light rendering and its quality and integration tradeoffs
 - resource: ../../../evidence/catalog.json#E-077cac7a56c4
   title: Global87 whole-pass population binary
 - resource: ../../../evidence/catalog.json#E-3724261dfc5f
@@ -122,6 +132,90 @@ entries, faces and actual
 clamp/drop counters around loss/recovery. Derived prefix-map ranges are CPU
 observations, not GPU binding or receiver proof. Physical expansion beyond pass 30
 requires a separate pass-registry redesign; guards cannot be removed by inference.
+
+# More shadow-casting lights at lower frame cost
+
+This is a feasibility assessment, combining published techniques with existing
+WD1 mappings. It establishes no new GPU timing or safe capacity setting.
+
+Increasing admission with unchanged work per light normally adds cost. The
+engineering opportunity is to lower average per-light work enough to outweigh
+the additional lights. Storage, refresh work and lighting evaluation must be
+budgeted separately. For illustration, 50% more refreshed lights requires more
+than a one-third reduction in average refresh cost to reduce that component's
+total time; CPU and final shading costs still need accounting. A lower shadow
+pass time does not guarantee higher game FPS if another stage limits the frame.
+
+## What the retained capture actually permits us to say
+
+Reanalysis with the existing strict decoder of the Global .89 60-second capture yields:
+
+- 87,160 ordinary-eligible sampled occurrences, of which 58,926 are unbound.
+- Renderer admitted faces equal 26 in 1,111 of 1,200 samples, with a maximum 28
+  and no sampled requested/admitted face clamp. This supports an earlier
+  admission restriction in that run, not exhaustion of the configured 30 faces.
+- Of 26,118 submitted single-face occurrences, 2,294 change from 4096 to 1024:
+  8.78%. 21,480 remain 4096; 2,344 remain 512.
+- Summing width times height over those same single-face samples gives 9.03%
+  less nominal area than their native requests. Multi-face records are excluded
+  because their resource packing is not inferred. This is arithmetic on one
+  sampled run, not an Off-versus-On benchmark, memory occupancy or GPU speedup.
+
+The reproducible script, input and decoder hashes, dimension groups and complete
+face histogram are registered as
+[E-shadow-budget-20261004](../../../evidence/catalog.json#E-shadow-budget-20261004).
+Streams are not causally paired by bucket; totals are occurrences, not unique
+lights. Unused sampled faces do not establish safe admission headroom in other
+scenes. The historical B4=25 control requested 33 faces and clamped work.
+
+## Transferable approaches
+
+| Approach | Published mechanism | WD1 applicability and missing contract |
+| --- | --- | --- |
+| Adaptive resolution | Unity HDRP rescales dynamic maps by projected light coverage and packs multiple resolutions into atlases. | The existing request-size hook is a usable starting point; verified screen impact, near-field protection and stable transitions remain needed. Light-center distance alone does not measure the importance of nearby shadow receivers. |
+| Separate residency and refresh | Unity retains cached maps between explicit updates, with movement-triggered refresh options. | WD1 cached bindings can already skip queue creation. More residency needs stable identity/storage, valid retained texture contents and an update policy that handles movement and new arrivals. Merely skipping a dynamic queue entry does not establish persistent contents. |
+| Cache static geometry separately | Epic documents avoiding repeated static-caster rendering under unchanged lights. | Most useful for stationary world lights. WD1's named StaticShadowMap is not proof of a static/dynamic caster split. Caster lists, invalidation and composition would need mapping. Moving headlights cannot safely reuse an unchanged projection just because buildings are static. |
+| Stochastic many-light rendering | Epic MegaLights uses a fixed per-pixel sampling budget and denoising; increasing overlapping light complexity can reduce quality. | A major lighting-path replacement requiring a scene representation, visibility queries, material integration and temporal reconstruction. Its shadow-map option still pays per-light map preparation. It is not a DLL or setting that removes WD1's admission limit. |
+
+Sources: [HDRP resolution/atlases](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@17.0/manual/Shadows-in-HDRP.html),
+[HDRP update modes](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@17.0/manual/shadow-update-mode.html),
+[Epic caching](https://dev.epicgames.com/documentation/en-us/unreal-engine/movable-light-mobility-in-unreal-engine),
+[MegaLights](https://dev.epicgames.com/documentation/en-us/unreal-engine/megalights-in-unreal-engine).
+
+Resolution arithmetic explains the opportunity without predicting performance:
+one 4096-square face has the same nominal area as sixteen 1024-square faces.
+Twenty 4096 faces total 335,544,320 texels; ten 4096 plus thirty 1024 faces total
+199,229,440, or 40.625% less. This hypothetical 40-face arrangement exceeds current
+validated capacity and is not a configuration recommendation. Every added light
+still has geometry, submission, filtering and lighting-evaluation costs; alpha
+tested casters and overdraw can dominate independently of nominal dimensions.
+
+## Feasibility order and acceptance evidence
+
+The existing resolution hook is a narrow implementation route, but savings
+depend on which currently rendered work may be reduced. If the full original
+nearby range must retain its resolution and low resolution applies only to a
+new outer band, that band adds cheaper work; it does not reduce existing work.
+Under that constraint, reducing redundant redraws or caster/submission cost is
+necessary to fund more lights with lower total cost. Establish actual savings
+before spending part on additional admissions. The existing pass registry and face
+guards remain binding even if rendering becomes cheaper. Significant expansion
+beyond the current envelope requires allocator, pass lookup, result lifetime and
+all consumers to be redesigned and independently validated; an atlas changes
+sampling and ownership as well as storage.
+
+Selective retained-map updates are a second route with potentially larger
+savings for stationary lights, but lower immediate feasibility. Native age/new
+owner scheduling below already has burst and starvation possibilities. Neither
+a larger A8 nor a blind every-N-frames policy proves validity or smoothness.
+Fast-changing headlights and nearby dynamic casters need timely refreshes.
+
+Success requires more simultaneously usable shadowed lights plus lower total
+CPU/GPU frame cost on comparable dense scenes, preserving nearby quality and
+avoiding stale shadows, black-world regressions and worse frame-time spikes.
+Admission/face/resource counts establish functional changes; they cannot replace
+shadow-pass and overall frame-time measurements. CPU callback timings are not
+GPU timings. This assessment does not select a new B4/A8 value or promise FPS.
 
 # Cache allocation, replacement and update selection
 

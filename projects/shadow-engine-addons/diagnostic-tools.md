@@ -9,6 +9,10 @@ tags:
 - hdri
 status: draft
 sources:
+- resource: ../../evidence/catalog.json#E-addons-a4ee-table-crash50-20261004
+  title: Repeat A4EE table-lookup crash despite retained menu ownership
+- resource: ../../evidence/catalog.json#E-addons-menu-lifetime50-20261004
+  title: Deferred callback ownership, partial-registration and package regression evidence
 - id: public-v210
   resource: ../../evidence/catalog.json#E-301ee65332e5
   title: Production reporter payload and verification boundary
@@ -112,3 +116,37 @@ native lifetime. Neither a copied pointer nor a successful API return proved
 safe cross-scene reuse. See [atmosphere mappings](atmosphere-probe.md),
 [tracer experiments](manual-lightning-bolt.md), and
 [extension authoring](../../compatibility/nexus-tools-extension-authoring.md).
+
+# Deferred menu ownership and the synchronous-fixture gap
+
+An Addons entrypoint retained its top-level menu but discarded the returned
+category owner after registration. Nested layout closures were handed to the
+host without an extension-owned callback collection. A fixture invoking all
+layout callbacks immediately could not observe this post-entrypoint lifetime.
+The matched A4EE failure occurs during deferred layout processing, but its dump
+lacks the affected Lua objects; this timing does not prove an ownership cause.
+
+The revised extension retains a complete UI owner (menu, category and stable
+layout/window callbacks). It passes borrowed layout views only during callbacks
+and never stores those temporary views. Unload or partial-registration failure
+marks its UI inactive so queued layout/window callbacks perform no more work.
+Keeping a partial owner is necessary because a host call can enqueue work before
+returning an error. No foreign registry cleanup or VM modification is involved.
+
+A weak observation of the category becomes empty for the previous bundle after
+the entrypoint returns and garbage collection runs. The revised bundle retains
+it through deferred callbacks and redraws, preserves all11 controls, and makes
+late callbacks inert after shutdown or interrupted registration. This tests the
+extension's explicit ownership contract; it neither emulates Nexus's native
+registry lifetime nor reproduces the captured access violation. Full bundled
+storm/lifecycle tests also pass. The121 shipped prototypes have maxima23/14/3
+(registers/upvalues/fixed parameters). Native ASI and archive bytes are unchanged.
+A subsequent matched A4EE run still crashes at the same instruction with the
+same invalid node pointer. The ownership change did not resolve the failure;
+passing ownership fixtures did not predict target-game success. See the
+[repeat crash evidence](lua-frame-attribution.md#repeat-after-explicit-menu-ownership).
+
+The subsequent unchanged Addons package passed the human startup/working test
+with an active A4EE regional Lua-frame repair supplied by the provider. This
+supports the shared VM boundary rather than proving the ownership mitigation
+fixed the captured crash. See [the working-session evidence](lua-frame-attribution.md#working-session-after-regional-frame-repair).

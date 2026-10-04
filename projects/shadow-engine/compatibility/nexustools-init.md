@@ -9,6 +9,8 @@ tags:
 - bootstrap
 status: draft
 sources:
+- resource: ../../../evidence/catalog.json#E-nexus113-runtime-20261003
+  title: Global runtime compatibility acceptance and preserved startup log
 - resource: ../../../evidence/catalog.json#E-nexus113-compatibility-20261003
   title: Host identities, startup rejection and actual-module offline checks
 - id: entry-module
@@ -111,6 +113,17 @@ and loss of the startup window between selection and commit. Native settings,
 startup and transaction tests and desktop Lua warning/control checks passed.
 Internal and Release builds reproduce; Release still excludes the Lua experiment.
 
-The .88 candidate has no in-game acceptance yet. Mapping 1.1.13 does not prove
-safe synchronous Lua format transition, all host APIs/scripts, or future builds.
-The remaining lifecycle limits belong to [the frame investigation](../architecture/lua-stack-compatibility.md).
+The .88 Internal build received a successful human compatibility report on
+2026-10-03 with NexusTools 1.1.13-ad643fa and the Global `supported-04DF` profile.
+Installed ASI and host hashes match the inspected delivery. The preserved runtime
+log records mapped host state 1, all 17 Lua repair sites active and completed
+shadow construction with 30 maps, 31 queue entries, B4=21, A8=4 and owner capacity 8.
+Recorded lifecycle summary failure fields remain zero. This closes the observed
+startup/compatibility regression in that tested configuration; it does not prove
+slow-shadow improvement, performance gains, all host APIs/scripts or other builds.
+
+The .88 binary still logs the previous runtime-tested baseline and pending runtime
+acceptance because those strings were compiled before this test. They do not
+invalidate the subsequent human observation. The test also does not establish a
+general synchronous Lua format-transition guarantee. Remaining lifecycle limits
+belong to [the frame investigation](../architecture/lua-stack-compatibility.md).

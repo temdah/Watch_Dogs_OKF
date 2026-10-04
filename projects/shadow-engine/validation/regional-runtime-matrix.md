@@ -1,7 +1,7 @@
 ---
 type: Validation Plan
 title: Regional Runtime Matrix
-description: Completed baseline matrix and risk-based manual gates for later candidates.
+description: Regional runtime evidence and calibrated offline compatibility gates.
 tags:
 - shadow-engine
 - validation
@@ -9,6 +9,12 @@ tags:
 - compatibility
 status: draft
 sources:
+- resource: ../../../evidence/catalog.json#E-shadow-five-profile-runtime95-20261004
+  title: Same-artifact five-profile acceptance and calibrated builder pass
+- resource: ../../../evidence/catalog.json#E-shadow-a4ee-capture-20261004
+  title: A4EE capture and five-profile automatic byte-validation result
+- resource: ../../../evidence/catalog.json#E-shadow-compat-builder-20261004
+  title: Automatic compatibility pipeline and regression evidence
 - id: profiles
   resource: ../../../evidence/catalog.json#E-4d85852a0d8b
   title: Supported runtime profiles
@@ -31,7 +37,7 @@ sources:
 # Profile and evidence contract
 
 Global/04DF, Shev/A4EE, VMPless, Complete Edition and Asia/Miru form the regional
-matrix. An all-five claim requires the same frozen candidate across all five.
+matrix. An all-five runtime-verified claim requires the same frozen candidate across all five.
 Each result records exact ASI/runtime identity, expected profile, complete
 preflight, operational activation, routing/integrity counters and the tester's
 visual/stability report. Missing markers or silence do not manufacture a crash,
@@ -43,14 +49,81 @@ acceptance of later hooks. Apply the smallest justified tier after offline gates
 | Changed surface | Manual gate |
 | --- | --- |
 | Documentation/packaging with no runtime effect |Offline verification unless the diagnostic itself needs live evidence |
-| Shared policy with unchanged profile/signature/resolver/preflight/hooks/ABI/transactions |Regional corpus plus representative Global high-load visual/stability run |
-| Explicit regional mapping/address |Every affected profile after corpus proof |
-| Profile selection, resolver, signatures, preflight, bootstrap, detour topology, ABI or transaction |Complete five-profile frozen-candidate matrix |
+| Shared policy with unchanged profile/signature/resolver/preflight/hooks/ABI/transactions |After initial calibration, automated corpus and regression gates; another full manual matrix is not a routine requirement |
+| Explicit regional mapping/address |Independent affected-profile proof; review whether focused live evidence is needed |
+| Profile selection, resolver, signatures, preflight, bootstrap, detour topology, ABI or transaction |Automatic qualification stops for boundary review and focused recalibration; expand to a complete matrix only where the change warrants it |
 
 Failure expands scope and blocks the affected candidate. The tester controls
 launch/closure and visual classification; file preparation, hashes and marker
 analysis do not replace that judgment. Intermediate Global-only research remains
 explicitly outside all-profile compatibility claims.
+
+# Recorded same-artifact regional observation
+
+On2026-10-04,2.0.95 was reported working on Global, A4EE, VMPless, Complete
+Edition and Asia/Miru with the identical menu-capable ASI. Each preserved
+session confirms its expected profile,17-site Lua repair, downstream shadow
+installation and Tools2.0.94 ready. Five explicit observations were recorded
+against the frozen candidate; the subsequent35-gate build passed with no
+calibration blocker and reproduced the same ASI hash.
+
+Core shadow and Lua activation does not make every optional feature portable:
+Global has driver/player-relative proofs; A4EE lacks the vehicle-identity and
+finite-limiter hooks. Extended population proof remains Global-specific. The
+separate compiler preset named Release has no corresponding manual observation.
+There is no FPS benchmark or exhaustive engine-lifecycle guarantee in this matrix.
+
+# Automatic compatibility builder
+
+The mod-owned local builder composes the canonical compiler with existing
+independent byte validators and native regression harnesses. It never loads a
+captured game DLL as executable code. Its inputs are five fixed regional PE
+identities, hash-identified private runtime images, the preserved source reference,
+known Nexus host images and the compiler/toolchain. It produces reproducible
+Internal and Release ASIs, allowlisted two-file packages and a machine-readable
+report containing each gate, actual regional feature coverage and artifact hashes.
+
+Qualification has three states: passed, failed and incomplete. Missing images or
+initial calibration are incomplete; a byte mismatch, failed regression, omitted
+profile or omitted required gate is failed. A failed run cannot package an
+installable. A candidate package from an incomplete run is not release approval.
+Interrupted runs retain an explicitly unsuccessful report. A run owns its lock,
+logs and frozen output directory; it does not replace earlier deliveries.
+
+The initial manual record binds an actual observation to the exact frozen ASI,
+tested regional identity, Internal/Release profile and complete source hashes.
+It cannot be created from failed checks, modified artifacts or changed source.
+Subsequent qualification compares compiler identity, profile feature coverage,
+native-boundary fingerprints and the gate implementation against that reference.
+Native fingerprints include profile data, state layout, preflight, transaction
+machinery, bootstrap and complete hook definitions. Routine policy changes outside
+that surface use regression tests; a changed boundary stops automatic qualification.
+This is conservative regression assurance, not proof of arbitrary future code or
+of visual quality, game scheduling, GPU correctness or frame rate.
+
+The complete offline corpus proves current core bytes on all five profiles.
+The [A4EE capture](runtime-corpus-gate.md) fills the previously missing mapped
+input; an old gameplay report alone did not supply that proof. Vehicle
+owner/batch/retirement/handle paths remain mapped on Global, VMPless, Complete
+Edition and Asia, and disabled on A4EE. Driver identity, player-relative selection, optional Internal Lua frame
+repair and extended population proof remain Global-only. Their absence elsewhere
+is disclosed feature coverage, not a newly implemented port. Global checks include
+eight driver spans/class metadata, local-player binding/position-reader spans and
+17 Lua sites, alongside synthetic activation/rollback tests. Core recognition
+must not be confused with equivalent optional features on every region.
+
+The observed builder run passed both reproducible build profiles, all 21 native
+harness scripts, Python regressions and desktop Lua menu checks. The Python
+discovery pass's intentionally skipped private decoder integration is subsequently
+run against newly exported native fixtures. The complete five-profile run has
+31 passing steps; only the unrecorded initial manual test keeps automatic
+qualification incomplete. The A4EE capture was taken with Shadow Engine disabled
+and must not be recorded as a manual acceptance test of the mod candidate.
+
+Internal and Release differ: Release omits the menu mailbox and optional Lua
+repair. A recorded Internal test is never evidence that Release was manually
+played. Hosted compilation lacks the private corpus/calibration, so automatic
+publication is disabled; approval and publishing are separate from compilation.
 
 # Calibrated baseline results
 

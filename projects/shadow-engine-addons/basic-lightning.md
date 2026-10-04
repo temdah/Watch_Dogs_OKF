@@ -11,6 +11,8 @@ tags:
 - safety
 status: draft
 sources:
+- resource: ../../evidence/catalog.json#E-addons-native-flash53-offline
+  title: Five-image native pulse admission and endpoint-mask validation
 - id: public-storm-promotion
   resource: public-storm-runtime.md
   title: Separating a storm hook host from optional observers
@@ -122,7 +124,7 @@ retained; they do not imply every historical candidate passed its runtime gate.
 
 The scheduler retains its owned 0x30-byte state/vector and 0x368-byte output.
 Only private output+364 is written; selected Moon record/state/selector and
-directional fields are never changed. Scheduler argument5 remains environment
+directional fields are never changed. In the retained public/native-random path, scheduler argument5 remains environment
 +4A8; strike/thunder IDs and deadlines remain native. No guessed sound delay,
 forced enable/mute, separate audio call, new Lua callback, export or control.
 Native helper9F5D80 marks handled even when downstream submission fails; input
@@ -332,3 +334,55 @@ Runtime feedback rejected v2.1.14 after an immediate crash. Windows again record
 lightning update/state activity. The candidate, its activation path and all
 post-v2.1.4 storm source are retired. v2.1.15 contains no lightning restoration.
 v2.1.4 remains the safe control.
+
+
+# Explicit pulse admission with native animation
+
+The event-controlled internal path can retain native temporal animation instead
+of replacing the scheduler output with an authored envelope. Static inspection of
+the following pinned Disrupt builds establishes the same admission-clock layout:
+
+| Build/profile | Scheduler RVA | Owned state layout |
+| --- | --- | --- |
+| Global / supported-04DF | `0xA24DE0` | wait float+0, elapsed float+4 |
+| A4EE/Shev unpacked / a4ee-signed-variant | `0x5EC980` | same verified layout |
+| VMPless / vmpless-1.06 | `0x602F80` | same verified layout |
+| Complete Edition / complete-edition-1.06.329 | `0x1A40580` | same verified layout |
+| Asia/Miru / asia-miru-1.06.329 | `0x668CE0` | same verified layout |
+
+Input hashes, mapped-image identity and exact instruction evidence are retained
+in the cited admission proof. This is static evidence, not five-build gameplay
+acceptance. Full pinned function bodies and independent comparison/add/store/branch
+checks gate the layout. Immutable profile metadata owns the common clock offsets.
+
+Each native call advances elapsed+4 by dt and admits one pulse only when this
+exceeds wait+0. The pulse vector is state+18/count+20, its animation clock is+10,
+and the native random seed is+28. Pulse duration comes from settings+30/+34;
+intensity from+38/+3C; per-update noise from+40. Native code combines its centered
+parabolic envelope with randomized noise, sums live pulses and clamps output+364.
+The retained authored StormA record has duration0.5-2s, intensity0.1-0.4 and
+noise ratio1.2. An envelope's duration is not one steady visible white flash.
+
+A mod-owned admission policy sets **only its own private state's** wait=0 and
+elapsed=1 to admit a requested strike. It then sets wait=FLT_MAX and elapsed=0
+to suppress unrequested random additions. The actual native scheduler still
+allocates, animates and expires pulses, preserving loaded duration/intensity/noise
+and the existing native sky curve. One frame advances dt once; extra simultaneous
+admissions use zero dt. The native seed is not replaced per event. Public random
+scheduling remains a separate unchanged policy when no event driver is configured.
+
+The serialized shared owner lends a step callback and validated settings for one
+update only. The policy retains neither the callback context nor engine pointers.
+Cancellation requests reset/construct on that owner; the Lua/menu thread never
+frees native pulse storage. Weather/context loss uses the existing serialized
+retirement. Moon state/settings/selector remain untouched. In this internal policy,
+native pulse audio is suppressed because the existing mod-owned distance/343
+thunder queue owns submission and still respects the native audio-enable gate.
+
+Offline fixtures cover exact requested admission count, no random admissions,
+single dt advancement, unchanged settings/seed and deferred reset; the compiled
+Lua/native transport still owns meshes, windows and delayed audio. Complete native
+profile checks pass for all five images. Reusing a native routine does not prove
+its new calling context in game: renewed runtime testing is required for this
+changed boundary. The prior short custom white pulse was rejected by the human
+observer; that report does not establish acceptance of this replacement.

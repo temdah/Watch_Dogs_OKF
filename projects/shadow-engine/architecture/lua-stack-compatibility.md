@@ -11,6 +11,8 @@ tags:
 - compatibility
 status: draft
 sources:
+- resource: ../../../evidence/catalog.json#E-shadow-upvalue-limit-20261004
+  title: Packed upvalue producer and consumers, regional byte matches and source correction
 - id: evidence-source-1
   resource: ../../../evidence/catalog.json#E-3fe2b424838f
   title: Sanitized technical handoff prepared for host-author review
@@ -36,7 +38,46 @@ sources:
 
 # Confirmed defect and current implementation
 
-The captured Global Lua runtime truncates prototype frame counts to five bits. Internal .57 introduced an experimental 17-site Global repair retained through .80. Its first reported run loaded and tools worked; logs confirmed all 17 sites active and a completed menu capture at serial 33484. This is tested first-run evidence, not full lifecycle/Release acceptance or a proven explanation for every configuration-dependent crash. Complete Edition and the other profiles are unsupported for this repair.
+## Independent four-bit upvalue and parameter counts
+
+Prototype byte `0A` has two additional packed fields: low four bits for captured
+variables (upvalues), high four bits for fixed parameters. The frame-size repair
+does not widen them. Enforce **registers <=31, upvalues <=15 and parameters <=15**
+on every prototype, including module roots and nested functions. These are
+independent limits; a small register frame can still capture too many variables.
+
+Read-only A4EE mapped-image inspection proves the following native boundaries:
+
+| A4EE RVA | Role and consumer |
+| --- | --- |
+| `004E6EC1` / `004E6F03` | Upvalue interning reads the low nibble, checks next count against60, and stores names/descriptors by that index |
+| `004E7031–004E7044` | Increment writes only the low nibble;15 advances to0 while preserving the parameter field |
+| `004E75C8` | Closure-binding instruction emission bounds its loop by the packed count |
+| `004D863A–004D86A7` | VM closure construction allocates and initializes exactly the packed number of upvalue pointers |
+| `004D7554–004D7561` | GETUPVAL selects closure+28+8*index, then reads the selected object's value pointer at+10 |
+| `004E820C–004E8217` | Parameter assignment shifts its count into the upper nibble of byte0A |
+
+The exact increment instruction sequence also occurs once in the preserved
+Global, VMPless, Complete Edition and Asia images. This is regional static byte
+evidence, not a runtime acceptance result. Global's mapped increment RVA is
+`001D5951`; offsets for unmapped PE files remain file offsets in the evidence.
+
+The tools2.0.93 registration function needs16 upvalues despite its12-register
+frame. Desktop compilation/behavior checks accepted it; the existing register
+gate could not detect this separate defect. Its A4EE runtime failed twice in
+GETUPVAL with a null selected pointer. Packed-count overflow is now a concrete
+source/native contract violation consistent with that failure; the minidumps
+still lack the live closure needed to prove the complete historical path.
+
+The source correction puts four related request helpers on their existing owned
+interface, reducing registration to12 upvalues without changing functionality.
+All78 shipped prototypes then fit29 registers/12 upvalues/7 parameters at their
+respective maxima. The compiler-backed metadata gate includes accepting15 and
+rejecting16 captures/parameters, plus the31/32 register boundary, and runs in
+the automatic builder. Packaged Lua is inspected too. Desktop menu behavior
+still passes728 checks; corrected game acceptance remains a separate test.
+
+The captured Lua runtime truncates prototype frame counts to five bits. Internal .57 introduced an experimental17-site Global repair; .95 extends its independently verified mappings to all five known regions. See [regional repair coverage](../compatibility/lua-frame-repair.md). The first Global run loaded and tools worked; logs confirmed all17 sites active and a completed menu capture at serial33484. This remains first-run evidence, not full lifecycle/Release acceptance or a proven explanation for every configuration-dependent crash. New regional game acceptance remains pending.
 
 In the Global runtime captured with Shadow Engine 2.0.56, the native
 Lua compiler permits stack requirements below 250 but stores the count in only

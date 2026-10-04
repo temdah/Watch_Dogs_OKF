@@ -145,3 +145,10 @@ They did not establish mod-manager merge order, live menu coexistence, wet-road
 appearance, shader selection, resource readiness or runtime performance.
 Exact build commands and delivery choices belong to the mod's build instructions;
 the reusable lessons here concern archive integrity and controlled experiments.
+
+# Addons-specific regional boundary
+
+[Regional native compatibility](native-compatibility.md) records the five-build
+code/layout proofs and recursive Lua prototype limits. A provider mod passing its
+own corpus is insufficient. Public/internal compilation and asset semantic gates
+remain independent, and offline acceptance is separate from game observations.

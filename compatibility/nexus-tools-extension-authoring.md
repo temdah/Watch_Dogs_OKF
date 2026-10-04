@@ -11,6 +11,8 @@ tags:
 - interoperability
 status: draft
 sources:
+- resource: ../evidence/catalog.json#E-shadow-a4ee-addons-menu-20261004
+  title: A4EE native initialization rejection before Addons menu registration
 - id: lua-frame-finding
   resource: ../projects/shadow-engine/architecture/lua-stack-compatibility.md
   title: WD1 Lua Packed Frame Size and Garbage Collection
@@ -147,6 +149,10 @@ For new tools targeting the unpatched runtime:
   ranges as well as explicit operands. A highest-NEWTABLE scan, a wrapped
   maxstack field, or success under desktop Lua cannot certify this invariant.
   A complete automatic packaged-bytecode gate is not supplied by this guide.
+* Independently keep captured upvalues and fixed parameters at15 or fewer per
+  prototype. Both counts occupy four-bit fields in prototype byte0A. A12-register
+  function capturing16 variables is still invalid. Source/compiler evidence and
+  producer/consumer roles are in the [packed metadata finding](../projects/shadow-engine/architecture/lua-stack-compatibility.md#independent-four-bit-upvalue-and-parameter-counts).
 * Keep modules separate when bundling; do not flatten them into one enormous
   function. Verify the packaged artifact, not only the source modules.
 * Do not disable GC, periodically force GC as a shipping workaround, swallow
@@ -205,3 +211,14 @@ Before handing off a menu build:
 [^lua-frame-finding]: Captured frame contract and bounded proof, not every crash's cause.
 [^lua-frame-repair]: Experimental compatibility scope and remaining release gates.
 [^current-shadow-menu]: Current Shadow Engine-owned UI and request lifecycle.
+
+# Regional initialization and missing menus
+
+A missing extension menu need not indicate a registration collision. In the
+A4EE Addons2.1.48 run, native storm initialization returned UNAVAILABLE and the
+Lua entrypoint returned before registering its menu. Its native runtime gate
+requires Global PE timestamp5CD045B4/image size6595000; A4EE fails that identity.
+Restoring menu availability and porting native capabilities are separate work:
+keep independently usable controls available, clearly disable unsupported native
+actions, and prove regional function/layout contracts before enabling them.
+Merely allowing another timestamp does not make Global addresses portable.

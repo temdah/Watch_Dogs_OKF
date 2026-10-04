@@ -3,6 +3,9 @@ type: Technical Reference
 title: 'Asynchronous native control ABI: request, receipt and application'
 status: draft
 sources:
+- id: background-query-review
+  resource: ../../../evidence/catalog.json#E-19eafa0c5c81
+  title: Occlusion-query mapping and bounded background-quality experiment
 - resource: ../../../evidence/catalog.json#E-8e4b6b03d025
   title: Native request dispatch and SE9 status projection
 - resource: ../../../evidence/catalog.json#E-4cf6a0b742b3
@@ -74,3 +77,15 @@ Compatibility is separate from shadow readiness. A warning does not claim
 successful startup. It is deduplicated by process/session/state and stays visible
 on the Shadows page. See [the host update case study](../compatibility/nexustools-init.md)
 for mapped 1.1.13 support, fallback behavior and remaining runtime limits.
+
+# Background quality transport
+
+SE11 preserves all33 SE10 fields and appends the background index:0 Off,1 512,
+2 1024. Its34-field parser validates the range; new tools still parse SE7–SE10
+and withhold background edits on older engines. SES3 requests contain process,
+session, sequence, change mask, limiter, vehicle quality, world quality and
+background quality. Allowed user masks are combinations of1/2/4/32; privileged
+raw policy masks remain unavailable to this transport. SES1/2 keep their existing
+contracts and cannot claim mask32. Acknowledgment remains receipt, not a saved
+or applied result. Revisions/results and value reconciliation cover the new
+field just like the existing settings. No callback waits for file I/O.

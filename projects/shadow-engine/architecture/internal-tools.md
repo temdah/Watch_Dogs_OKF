@@ -9,6 +9,11 @@ tags:
 - cleanup
 status: draft
 sources:
+- resource: ../../../evidence/catalog.json#E-shadow-support-report-20261004
+  title: Staged diagnostic orchestration and independent archive validation
+- id: retired-policy-migration
+  resource: ../../../evidence/catalog.json#E-shadow-baseline-20261004
+  title: Retired experiment removal and settings migration fixtures
 - resource: ../../../evidence/catalog.json#E-c681b34977c2
   title: Corrected .75 runtime, H3/H5 acceptance, H8 closure and settings-continuity request
 - resource: ../../../evidence/catalog.json#E-650f8fa72d27
@@ -151,6 +156,51 @@ for 60 seconds without requiring a human to mark a brief visual event. Optional
 annotations did not identify the exact visible light. Native state remained the
 completion authority; see [population observation](population-observation.md).
 
+# Orchestrating independent captures into one support artifact
+
+The mod-owned module76 controller uses the existing module75 worker and mailbox
+action17. Its state is allocated on demand for process lifetime. It sequences
+workload measurement, a60-second detailed/intersection/population window,
+vehicle sampling and ZIP export. Workload and vehicle stages have20-second
+timeouts; observation allows85seconds including drain/export. These bounds
+describe collector waiting, not a guaranteed disk-write deadline. No native
+shadow policy or patch-site mapping is changed by the controller.
+
+The controller reserves diagnostic collectors while active. It tracks exact
+workload/population serials, detail epoch, intersection capture and vehicle
+serial. A queued detail arm owns the next epoch even when a producer temporarily
+holds the metadata lock. A timeout preserves outstanding producer tickets and
+records incomplete coverage; it never frees native-owned work to force success.
+Population's optional mapping remains Global-only. Other profiles produce an
+explicitly partial report rather than silently borrowing a previous recording.
+
+The bounded ZIP/store writer reads only the mod log, saved settings, the exact
+completed population file and the exact completed intersection file, plus a
+generated manifest containing version, selected profile, serials, coverage gaps
+and current SE10 status. Workload/detail/vehicle records remain in the session
+log. It does not collect saves, game assets or full process memory. Logs may
+contain diagnostic addresses and paths; this is not a personal-data scrubber.
+Entry names are flat, CRC32-protected and capped at8entries,128MiB per input and
+192MiB total. File output happens on the worker, with a create-new temporary
+archive, flush/close and no-overwrite final rename. A partial archive is still a
+valid ZIP with disclosed gaps; an output failure is never labelled saved.
+
+SEB1 status is separate from SE10. PID/session/report identity prevents replay
+of another run's outcome, and a terminal timestamp stops idle status rewrites.
+Lua only requests and displays the native stages; closing the menu does not
+cancel native work. Public presentation exposes one report action, while the
+development entry retains individual diagnostic controls. Shadow settings and
+traffic retain their existing independent owners. Notifications require the
+Lua host to keep polling; saved files remain discoverable on reopening.
+
+Offline evidence covers command exclusion, lock-delayed epochs, held tickets,
+timeout gaps, filename collision, stale-file exclusion, successful current-file
+inclusion, ZIP CRC/content validation and public UI session/error/retry behavior.
+An omitted module in a manually composed test harness caused a link failure;
+adding the real controller restored that fixture's dependency contract.
+These are synthetic observations and actual-source tests, not host-VM, visual,
+GPU-performance or five-profile gameplay acceptance.
+
 # Ambient traffic control
 
 The observed Lua `ChangeVehiclesBudget(0)` / `RestoreBudgets` mechanism affects
@@ -167,3 +217,17 @@ Desktop Lua fixtures, register-budget checks and native builds do not certify
 the modified target VM. Configured quality does not establish backing-resource
 replacement. Lower submitted face counts do not measure FPS. Preserve separate
 native-call, resource, renderer and visual evidence when evaluating a bridge.
+
+# Retiring a protocol extension
+
+Removing the background experiment restores the33-field SE10 status and SES2
+ordinary-setting requests. A recognizable SES3 request receives a terminal
+rejection, so a stale client cannot leave a sequence waiting indefinitely or
+mutate retired policy. The companion removes background controls while retaining
+settings, traffic, capture and Nexus warnings. Its display identifies its own
+tools version and protocol rather than claiming to know the ASI version, which
+SE10 does not carry. This bridge exists only in the Internal profile; Release
+retains startup settings and the native control ABI, not the Lua mailbox.
+Desktop fixtures do not certify host-VM execution.[^retired-policy-migration]
+
+[^retired-policy-migration]: Preserved pre-cleanup source and actual-source baseline fixtures; both native builds reproduce offline, with no game acceptance inferred.
